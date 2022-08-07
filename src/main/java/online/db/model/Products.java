@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import online.db.model.enums.FourCategory;
-import online.db.model.enums.NextCategory;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,10 +25,10 @@ public class Products {
     private Double price;
     private String about;
 
-    @Enumerated(value = EnumType.STRING)
+    @ManyToOne
     private NextCategory nextCategory;
 
-    @Enumerated(value = EnumType.STRING)
+    @ManyToOne
     private FourCategory fourCategory;
 
     @ManyToMany(cascade = CascadeType.REMOVE)

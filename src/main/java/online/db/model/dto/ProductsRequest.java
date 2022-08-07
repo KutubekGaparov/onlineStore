@@ -1,7 +1,5 @@
 package online.db.model.dto;
 
-import online.db.model.enums.FourCategory;
-
 public class ProductsRequest {
 
     private String manufacturer;
@@ -10,5 +8,4 @@ public class ProductsRequest {
     private Double price;
     private String about;
 
-    private FourCategory fourCategory;
 }

@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import online.db.model.Products;
-import online.db.model.enums.FourCategory;
-import online.db.model.enums.NextCategory;
 import online.db.servise.ProductService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/client")
@@ -19,7 +19,7 @@ public class ClientApi {
 
     @Operation(summary = "get all four category")
     @GetMapping("/four-category/{fourCategory}")
-    public Products getAllFourCategory(@PathVariable String fourCategory) {
+    public List<Products> getAllFourCategory(@PathVariable String fourCategory) {
         return productService.getAllFourCategory(fourCategory);
     }
 

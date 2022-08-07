@@ -1,8 +1,6 @@
 package online.db.repository;
 
 import online.db.model.Products;
-import online.db.model.enums.FourCategory;
-import online.db.model.enums.NextCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
