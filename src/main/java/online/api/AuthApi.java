@@ -7,6 +7,8 @@ import online.config.services.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import online.db.model.dto.ClientRegisterDTO;
+import online.db.servise.ClientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,8 +28,10 @@ import java.util.stream.Collectors;
 @Tag(name = "AuthController", description = "jwt token,")
 public class AuthApi {
 
+    private ClientService clientService;
     AuthenticationManager authenticationManager;
     JwtUtils jwtUtils;
+
 
     @Operation(summary = "Sign in", description = "Signing in for all users: admin")
     @PostMapping("/sign-in")
@@ -45,5 +49,11 @@ public class AuthApi {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(jwt, roles, loginRequest.getEmail()));
+    }
+
+    @Operation(summary = "Sign up", description = "Register only for client")
+    @PostMapping("/signup/client")
+    public ResponseEntity<?> registerClient(@Valid @RequestBody ClientRegisterDTO client) {
+        return clientService.register(client, 2L);
     }
 }

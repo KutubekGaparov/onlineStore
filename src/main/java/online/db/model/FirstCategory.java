@@ -3,7 +3,6 @@ package online.db.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,18 +10,16 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class NextCategory {
+public class FirstCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_seq")
-    @SequenceGenerator(name = "hibernate_seq", sequenceName = "category_seq", allocationSize = 1)
+    @SequenceGenerator(name = "hibernate_seq", sequenceName = "four_category_seq", allocationSize = 1)
     private Long id;
 
-    private String name;
+    private String nameCategory;
 
-    @ManyToOne
-    private FourCategory fourCategory;
 
-    @OneToMany(mappedBy = "nextCategory")
-    private List<Products> products;
+    @OneToMany(mappedBy = "firstCategory")
+    private List<SecondCategory> nextCategory;
 }

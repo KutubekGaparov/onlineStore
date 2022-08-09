@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,16 +27,33 @@ public class Products {
     private String about;
 
     @ManyToOne
-    private NextCategory nextCategory;
-
-    @ManyToOne
-    private FourCategory fourCategory;
+    @JsonIgnore
+    private SecondCategory secondCategory;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @JoinTable(
-            name = "product_basket"
+            name = "products_basket"
             , joinColumns = @JoinColumn(name = "product_id")
             , inverseJoinColumns = @JoinColumn(name = "basket_id"))
     private List<Basket> basket;
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinTable(
+            name = "operation_products"
+            , joinColumns = @JoinColumn(name = "product_id")
+            , inverseJoinColumns = @JoinColumn(name = "operation_id"))
+    private List<ClientOperations> operations;
+
+    @JsonIgnore
+    public void setOperation(ClientOperations courseId) {
+        if (operations == null) {
+            operations = new ArrayList<>();
+        }
+        operations.add(courseId);
+
+    }
+
 }

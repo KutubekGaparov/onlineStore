@@ -2,8 +2,9 @@ package online;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import lombok.AllArgsConstructor;
-import online.db.model.enums.ERole;
-import online.db.model.enums.Role;
+import online.db.model.Basket;
+import online.db.model.ERole;
+import online.db.model.Role;
 import online.db.model.User;
 import online.db.repository.RoleRepository;
 import online.db.repository.UserRepository;
@@ -36,7 +37,7 @@ public class OnlineStoreApplication {
     }
 
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         Role client = new Role();
         client.setId(1L);
@@ -47,18 +48,21 @@ public class OnlineStoreApplication {
         roleRepository.save(client);
         roleRepository.save(admin);
 
-        User c = new User();
-        c.setEmail("admin@gmail.com");
-        c.setFullName("Admin");
-        c.setPassword(encoder.encode("admin"));
-        c.setRole(roleRepository.getByIdRole(1L));
-        userRepository.save(c);
-        User a = new User();
-        a.setEmail("client@gmail.com");
-        a.setFullName("Client");
-        a.setPassword(encoder.encode("client"));
-        a.setRole(roleRepository.getByIdRole(2L));
+        User admins = new User();
+        admins.setEmail("admin@gmail.com");
+        admins.setFullName("Admin");
+        admins.setPassword(encoder.encode("admin"));
+        admins.setRole(roleRepository.getByIdRole(1L));
+        userRepository.save(admins);
 
-        userRepository.save(a);
+        User clients = new User();
+        clients.setEmail("client@gmail.com");
+        clients.setFullName("Client");
+        clients.setPassword(encoder.encode("client"));
+        clients.setRole(roleRepository.getByIdRole(2L));
+        Basket basket1 = new Basket();
+        basket1.setUser(clients);
+        clients.setBasket(basket1);
+        userRepository.save(clients);
     }
 }

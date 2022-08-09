@@ -1,4 +1,4 @@
-package online.db.model.enums;
+package online.db.model;
 
 import org.springframework.security.core.GrantedAuthority;
 

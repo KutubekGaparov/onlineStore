@@ -1,12 +1,13 @@
 package online.db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import online.db.model.enums.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "users",
@@ -40,4 +41,17 @@ public class User {
     @OneToOne
     private Role role;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "operation_id")
+    private List<ClientOperations> clientOperation;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }
