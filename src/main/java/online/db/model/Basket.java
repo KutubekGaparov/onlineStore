@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import online.db.model.dto.ProductCard;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,12 +21,8 @@ public class Basket {
     @Column(name = "basket_id")
     private Long basketId;
 
-    @ManyToMany
-    @JoinTable(
-            name = "products_basket"
-            , joinColumns = @JoinColumn(name = "basket_id")
-            , inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Products> products;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ProductCard> productCards;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -33,6 +30,6 @@ public class Basket {
     private User user;
 
     public void clear() {
-        products.removeIf(books -> true);
+        productCards.removeIf(books -> true);
     }
 }

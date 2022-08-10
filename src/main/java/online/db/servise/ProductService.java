@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import online.db.model.SecondCategory;
 import online.db.model.Products;
 import online.db.model.User;
+import online.db.model.dto.ProductCard;
 import online.db.repository.BasketRepository;
 import online.db.repository.SecondCategoryRepository;
 import online.db.repository.ProductRepository;
@@ -27,9 +28,11 @@ public class ProductService {
     private UserRepository userRepository;
     private BasketRepository basketRepository;
 
-    /**    Admin    */
+    /**
+     * Admin
+     */
 
-    public Products saveProduct(Products products,Long id) {
+    public Products saveProduct(Products products, Long id) {
 
         SecondCategory nextCategory = nextCategoryRepository.findById(id).get();
 
@@ -44,31 +47,31 @@ public class ProductService {
 
         String oldName = oldProduct.getAbout();
         String newName = products.getAbout();
-        if (!oldName.equals(newName)){
+        if (!oldName.equals(newName)) {
             oldProduct.setAbout(newName);
         }
 
         String old = oldProduct.getManufacturer();
         String news = products.getManufacturer();
-        if (!old.equals(news)){
+        if (!old.equals(news)) {
             oldProduct.setManufacturer(news);
         }
 
         Double oldPrice = oldProduct.getPrice();
         Double newPrice = products.getPrice();
-        if (!oldPrice.equals(newPrice)){
+        if (!oldPrice.equals(newPrice)) {
             oldProduct.setPrice(newPrice);
         }
 
         String oldModel = oldProduct.getModel();
         String newModel = products.getModel();
-        if (!oldModel.equals(newModel)){
+        if (!oldModel.equals(newModel)) {
             oldProduct.setModel(newModel);
         }
 
         int oldW = oldProduct.getWeight();
         int newW = products.getWeight();
-        if (!Objects.equals(oldW, newW)){
+        if (!Objects.equals(oldW, newW)) {
             oldProduct.setWeight(newW);
         }
 
@@ -80,7 +83,9 @@ public class ProductService {
         return "Delete Product Successfully";
     }
 
-    /**    Client    */
+    /**
+     * Client
+     */
 
     public List<Products> getAllProducts(Long nextId) {
         return productRepository.getAllByNextCategory(nextId);
@@ -96,7 +101,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ResponseEntity<?> addBookToBasket(Long orderId, String username) {
+    public ResponseEntity<?> addBookToBasket(Long orderId, int count, String username) {
 
         if (basketRepository.checkIfAlreadyClientPutInBasket(
                 getUsersBasketId(username), orderId) > 0) {
@@ -105,8 +110,11 @@ public class ProductService {
 
         User user = userRepository.getUser(username).orElseThrow(() ->
                 new NotFoundException(String.format("User with username %s not found", username)));
+        ProductCard productCard = new ProductCard();
+        productCard.setProductId(productRepository.findById(orderId).get());
+        productCard.setCount(count);
 
-        user.getBasket().getProducts().add(productRepository.findById(orderId).get());
+        user.getBasket().getProductCards().add(productCard);
 
         return ResponseEntity.ok(new MessageResponse(String.format("Order with id %s has been added to basket of user" +
                 "with username %s", orderId, username)));
