@@ -9,11 +9,13 @@ import online.db.model.Products;
 import online.db.servise.FirstCategoryService;
 import online.db.servise.SecondCategoryService;
 import online.db.servise.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin")
-//@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @AllArgsConstructor
 @Tag(name = "Admin", description = "Admin accessible apis")
 public class AdminApi {

@@ -19,6 +19,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/client")
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @AllArgsConstructor
 @Tag(name = "Client", description = "Client accessible apis")
 public class ClientApi {
