@@ -19,6 +19,7 @@ public class FirstCategory {
 
     private String nameCategory;
 
+    private String image;
 
     @OneToMany(mappedBy = "firstCategory")
     private List<SecondCategory> nextCategory;

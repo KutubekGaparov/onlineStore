@@ -21,6 +21,8 @@ public class SecondCategory {
 
     private String name;
 
+    private String image;
+
     @ManyToOne
     @JsonIgnore
     private FirstCategory firstCategory;

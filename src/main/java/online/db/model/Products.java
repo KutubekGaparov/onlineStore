@@ -26,6 +26,8 @@ public class Products {
     private Double price;
     private String about;
 
+    private String image;
+
     @ManyToOne
     @JsonIgnore
     private SecondCategory secondCategory;
