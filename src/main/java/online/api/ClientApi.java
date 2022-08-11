@@ -35,7 +35,7 @@ public class ClientApi {
 
     @Operation(summary = "Get first Category by id")
     @GetMapping("/first-category/{id}")
-    public FirstCategory getById(@PathVariable Long id){
+    public FirstCategory getById(@PathVariable Long id) {
         return fourCategoryService.findById(id);
     }
 
@@ -47,7 +47,7 @@ public class ClientApi {
 
     @Operation(summary = "Get Second Category by id")
     @GetMapping("/second-category/{id}")
-    public SecondCategory getBySecond(@PathVariable Long id){
+    public SecondCategory getBySecond(@PathVariable Long id) {
         return nextCategoryService.findById(id);
     }
 
@@ -68,9 +68,10 @@ public class ClientApi {
     @Operation(summary = "add to basket", description = "add a Order to basket")
     @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PostMapping("/order/basket/{orderId}")
-    public ResponseEntity<?> addToBasket(@PathVariable Long orderId, Authentication authentication) {
-        return productService.addBookToBasket(orderId, authentication.getName());
+    public ResponseEntity<?> addToBasket(@PathVariable Long orderId, int count, Authentication authentication) {
+        return productService.addBookToBasket(orderId,count, authentication.getName());
     }
+
 
     // To Do
     // plus or minus and Client Operation
