@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class Products {
 
@@ -31,15 +32,6 @@ public class Products {
     @ManyToOne
     @JsonIgnore
     private SecondCategory secondCategory;
-
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    @JoinTable(
-            name = "products_basket"
-            , joinColumns = @JoinColumn(name = "product_id")
-            , inverseJoinColumns = @JoinColumn(name = "basket_id"))
-    private List<Basket> basket;
-
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
