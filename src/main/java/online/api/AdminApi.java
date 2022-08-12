@@ -60,6 +60,7 @@ public class AdminApi {
     public SecondCategory updateNextPr(@RequestBody SecondCategory nextCategory, @PathVariable Long id) {
         return nextCategoryService.updateNextCategory(nextCategory,id);
     }
+   
 
     @Operation(summary = "Delete Second Category ")
     @DeleteMapping("/second-category/{id}")
@@ -80,3 +81,5 @@ public class AdminApi {
     }
 
 }
+
+ // this is govno code
