@@ -29,6 +29,10 @@ public class Basket {
     @JsonIgnore
     private User user;
 
+    private String fullName;
+
+    private String number;
+
     public void clear() {
         productCards.removeIf(books -> true);
     }

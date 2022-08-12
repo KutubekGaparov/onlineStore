@@ -1,9 +1,11 @@
 package online.db.servise;
 
 import lombok.AllArgsConstructor;
+import online.db.model.Basket;
 import online.db.model.SecondCategory;
 import online.db.model.Products;
 import online.db.model.User;
+import online.db.model.dto.OrderDto;
 import online.db.model.dto.ProductCard;
 import online.db.repository.BasketRepository;
 import online.db.repository.SecondCategoryRepository;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -101,23 +104,34 @@ public class ProductService {
     }
 
     @Transactional
-    public ResponseEntity<?> addBookToBasket(Long orderId, int count, String username) {
+    public ResponseEntity<?> addBookToBasket(OrderDto order) {
 
-        if (basketRepository.checkIfAlreadyClientPutInBasket(
-                getUsersBasketId(username), orderId) > 0) {
-            throw new BadRequestException("You already put this book in your basket");
-        }
+//        if (basketRepository.checkIfAlreadyClientPutInBasket(
+//                getUsersBasketId(username), orderId) > 0) {
+//            throw new BadRequestException("You already put this book in your basket");
+//        }
 
-        User user = userRepository.getUser(username).orElseThrow(() ->
-                new NotFoundException(String.format("User with username %s not found", username)));
-        ProductCard productCard = new ProductCard();
-        productCard.setProductId(productRepository.findById(orderId).get());
-        productCard.setCount(count);
+//        User user = userRepository.getUser(username).orElseThrow(() ->
+//                new NotFoundException(String.format("User with username %s not found", username)));
 
-        user.getBasket().getProductCards().add(productCard);
 
-        return ResponseEntity.ok(new MessageResponse(String.format("Order with id %s has been added to basket of user" +
-                "with username %s", orderId, username)));
+        List<ProductCard> productCards = new ArrayList<>();
+        order.getOrders().forEach(el -> {
+            ProductCard productCard = new ProductCard();
+            productCard.setProductId(productRepository.findById(el.getProductId()).orElse(null));
+            productCard.setCount(el.getCount());
+            productCards.add(productCard);
+        });
+
+
+        Basket basket = new Basket();
+        basket.setFullName(order.getFullName());
+        basket.setProductCards(productCards);
+        basket.setNumber(order.getPhoneNumber());
+        Basket save = basketRepository.save(basket);
+
+        return ResponseEntity.ok(new MessageResponse(String.format("Order with id %s has been added to basket of user",
+                save.getBasketId())));
     }
 
 

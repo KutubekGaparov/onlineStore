@@ -20,7 +20,7 @@ public class ProductCard {
     @Column(name = "product_card_id")
     Long id;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToOne
     Products productId;
 

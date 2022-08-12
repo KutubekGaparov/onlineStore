@@ -3,9 +3,12 @@ package online.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import online.db.model.Basket;
 import online.db.model.FirstCategory;
 import online.db.model.SecondCategory;
 import online.db.model.Products;
+import online.db.model.dto.OrderDto;
+import online.db.repository.BasketRepository;
 import online.db.servise.FirstCategoryService;
 import online.db.servise.SecondCategoryService;
 import online.db.servise.ProductService;
@@ -28,6 +31,7 @@ public class ClientApi {
     private ProductService productService;
     private FirstCategoryService fourCategoryService;
     private SecondCategoryService nextCategoryService;
+    private BasketRepository basketRepository;
 
     @Operation(summary = "get all four category")
     @GetMapping("/four-category")
@@ -68,10 +72,15 @@ public class ClientApi {
 
 
     @Operation(summary = "add to basket", description = "add a Order to basket")
-    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+//    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PostMapping("/order/basket/{orderId}")
-    public ResponseEntity<?> addToBasket(@PathVariable Long orderId, int count, Authentication authentication) {
-        return productService.addBookToBasket(orderId,count, authentication.getName());
+    public ResponseEntity<?> addToBasket(@RequestBody OrderDto order) {
+        return productService.addBookToBasket(order);
+    }
+
+    @GetMapping("/order/basket/all")
+    public List<Basket> getAllBasket() {
+        return basketRepository.findAll();
     }
 
 
