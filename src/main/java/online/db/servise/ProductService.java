@@ -95,7 +95,7 @@ public class ProductService {
     }
 
     public List<Products> findProductByModel(String model) {
-        return productRepository.findAllByModelLike(model);
+        return productRepository.findAllByModelLike("%" + model + "%");
     }
 
     public Products getById(Long id) {
